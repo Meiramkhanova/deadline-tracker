@@ -1,7 +1,11 @@
-from django.urls import path
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
 
-from .views import DeadlineListCreateView
+from .views import DeadlineViewSet
+
+router = DefaultRouter()
+router.register("deadlines", DeadlineViewSet, basename="deadline")
 
 urlpatterns = [
-    path("deadlines/", DeadlineListCreateView.as_view(), name="deadline-list"),
+    path("", include(router.urls)),
 ]

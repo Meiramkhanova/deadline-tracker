@@ -1,0 +1,145 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "name": "Deadline Tracker API",
+    "description": "Working requests for all Deadline Tracker REST endpoints (list, get by ID, create, update, delete).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8000/api"
+    },
+    {
+      "key": "deadlineId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "List deadlines",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/deadlines/",
+          "host": ["{{baseUrl}}"],
+          "path": ["deadlines", ""]
+        },
+        "description": "GET /api/deadlines/ — list all deadlines, nearest first."
+      },
+      "response": []
+    },
+    {
+      "name": "Create deadline",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    const data = pm.response.json();",
+              "    pm.collectionVariables.set('deadlineId', data.id);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Docker Compose homework\",\n  \"subject\": \"Web Development\",\n  \"due_at\": \"2026-12-01T23:59:00+05:00\",\n  \"is_done\": false\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/deadlines/",
+          "host": ["{{baseUrl}}"],
+          "path": ["deadlines", ""]
+        },
+        "description": "POST /api/deadlines/ — create a deadline. Saves returned id into collection variable deadlineId."
+      },
+      "response": []
+    },
+    {
+      "name": "Get deadline by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/deadlines/{{deadlineId}}/",
+          "host": ["{{baseUrl}}"],
+          "path": ["deadlines", "{{deadlineId}}", ""]
+        },
+        "description": "GET /api/deadlines/{id}/ — retrieve one deadline by ID."
+      },
+      "response": []
+    },
+    {
+      "name": "Update deadline (PUT)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Docker Compose homework (updated)\",\n  \"subject\": \"Web Development\",\n  \"due_at\": \"2026-12-15T23:59:00+05:00\",\n  \"is_done\": false\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/deadlines/{{deadlineId}}/",
+          "host": ["{{baseUrl}}"],
+          "path": ["deadlines", "{{deadlineId}}", ""]
+        },
+        "description": "PUT /api/deadlines/{id}/ — full update of a deadline."
+      },
+      "response": []
+    },
+    {
+      "name": "Partial update deadline (PATCH)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"is_done\": true\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/deadlines/{{deadlineId}}/",
+          "host": ["{{baseUrl}}"],
+          "path": ["deadlines", "{{deadlineId}}", ""]
+        },
+        "description": "PATCH /api/deadlines/{id}/ — partial update (e.g. mark as done)."
+      },
+      "response": []
+    },
+    {
+      "name": "Delete deadline",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/deadlines/{{deadlineId}}/",
+          "host": ["{{baseUrl}}"],
+          "path": ["deadlines", "{{deadlineId}}", ""]
+        },
+        "description": "DELETE /api/deadlines/{id}/ — delete a deadline. Returns 204 No Content."
+      },
+      "response": []
+    }
+  ]
+}
